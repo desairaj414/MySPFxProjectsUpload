@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.19.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "document-card-example",
+    "libraryId": "e446dfa4-f5b4-4752-9603-c0c9169eff9b",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "DocumentCardExample",
+    "solutionShortDescription": "DocumentCardExample description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

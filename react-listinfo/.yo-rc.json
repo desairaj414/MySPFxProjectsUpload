@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.19.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "react-listinfo",
+    "libraryId": "a6df1b95-9302-412d-9c83-4759a9f4aba4",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "react-listinfo",
+    "solutionShortDescription": "react-listinfo description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

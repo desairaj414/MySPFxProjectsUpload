@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "hello-pn-p-controls-client-side-solution",
+    "id": "18cf6a29-1de1-4036-804d-d60c787483d9",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "HelloPnPControls description"
+      },
+      "longDescription": {
+        "default": "HelloPnPControls description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "hello-pn-p-controls Feature",
+        "description": "The feature that activates elements of the hello-pn-p-controls solution.",
+        "id": "3903dcd5-fe57-4792-b6af-f1845391c521",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/hello-pn-p-controls.sppkg"
+  }
+}

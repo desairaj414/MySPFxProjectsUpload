@@ -1,0 +1,80 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.reactCrud {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.myStyles{
+  width: 100%;
+  text-align: center;
+  float:left;
+  align-items: center;
+  align-content: center;
+  .dropdown{
+    width: 50%;
+    margin: auto;
+  }
+  .myButton{
+    margin-left: 20px;
+    border-radius: 15px;
+  }
+  .myStatusBar{
+    background-color:cadetblue;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+
+
+.row{
+  @include ms-Grid-row;
+  padding: 20px;
+}
+
+.column {
+  @include ms-Grid-col;
+  @include ms-lg10;
+  @include ms-xl8;
+  @include ms-xlPush2;
+  @include ms-lgPush1;
+}
+
+.title {
+  @include ms-font-xl;
+  @include ms-fontColor-white;
+}
+
+.subTitle {
+  @include ms-font-l;
+  @include ms-fontColor-white;
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}

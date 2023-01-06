@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.19.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "sp-fx-http-client-demo",
+    "libraryId": "2c4cee2b-b15a-4168-8348-6b7569d6a37a",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "SPFxHttpClientDemo",
+    "solutionShortDescription": "SPFxHttpClientDemo description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
