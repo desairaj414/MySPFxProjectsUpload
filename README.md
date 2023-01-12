@@ -1,5 +1,6 @@
 # MySPFxProjectsUpload
- All of My SPFx Projects are Uploaded to this Repository.
+
+All of My SPFx Projects are Uploaded to this Repository.
 
 ## Summary
 
