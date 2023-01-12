@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "my-react-crud-code-client-side-solution",
+    "id": "18f843eb-7110-444d-b8a9-c7975137353f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "MyReactCrudCode description"
+      },
+      "longDescription": {
+        "default": "MyReactCrudCode description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "my-react-crud-code Feature",
+        "description": "The feature that activates elements of the my-react-crud-code solution.",
+        "id": "4d7f8a96-8d53-495d-af95-2fd1129fafbe",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/my-react-crud-code.sppkg"
+  }
+}

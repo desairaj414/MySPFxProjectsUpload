@@ -1,0 +1,63 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.myReactCrudCode {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+
+.buttons {
+  margin-right: 10px;
+  margin-top: 10px;
+  border-radius: 15px;
+}
+
+.tryHiding{
+  display: none;
+}
+
+.myStyles{
+  width: 100%;
+  text-align: center;
+  float:left;
+  align-items: center;
+  align-content: center;
+  .dropdown{
+    width: 50%;
+    margin: auto;
+  }
+  .myStatusBar{
+    background-color:cadetblue;
+    margin-top: 20px;
+    text-align: center;
+    display: none;
+
+  }
+}
