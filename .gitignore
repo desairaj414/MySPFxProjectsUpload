@@ -1,0 +1,55 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules
+
+# Build generated files
+dist
+lib
+solution
+temp
+*.sppkg
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# OSX
+.DS_Store
+
+# Visual Studio files
+.ntvs_analysis.dat
+.vs
+.vscode
+bin
+obj
+
+# Resx Generated Code
+*.resx.ts
+
+# Styles Generated Code
+*.scss.ts
+
+packages/
+
+
+# Include distributable workflow actions
+!.github/actions/**/dist
+
+
+# .CER Certificates
+*.cer
+# .PEM Certificates
+*.pem
+
+
+# Exclude build artifacts from samples
+**/dist/
+**/lib/
+**/solution/
+**/temp/
+**/release/
+**/node_modules
+**/sharepoint
