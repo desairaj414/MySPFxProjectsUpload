@@ -71,7 +71,6 @@ export class SPOperations{
 
     // Config to set List Title
     private static listTitle: string = "Countries"
-
     public static setListTitle(listTitle: string){
         SPOperations.listTitle = listTitle;
     }
@@ -278,6 +277,9 @@ export class SPOperations{
     public async _addListItem(): Promise<SPHttpClientResponse> {
         const itemEntityType = await this._getItemEntityType();
         
+        const endpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items`;
+
         /* eslint-disable @typescript-eslint/no-explicit-any */
         const request: any = {};
         request.body = JSON.stringify({
@@ -285,9 +287,6 @@ export class SPOperations{
             '@odata.type': itemEntityType
         });
         /* eslint-enable @typescript-eslint/no-explicit-any */
-        
-        const endpoint = SPOperations.context.pageContext.web.absoluteUrl + 
-            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items`;
         
         return SPOperations.context.spHttpClient.post(
             endpoint,
@@ -326,6 +325,10 @@ export class SPOperations{
         const listItem: ICountryListItem = responseJson.value[0];
         
         listItem.Title = 'USA';
+
+        const postEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
+
         /* eslint-disable @typescript-eslint/no-explicit-any */
         const request: any = {};
         request.headers = {
@@ -334,9 +337,6 @@ export class SPOperations{
         };
         /* eslint-enable @typescript-eslint/no-explicit-any */
         request.body = JSON.stringify(listItem);
-        
-        const postEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
-            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
         
         return SPOperations.context.spHttpClient.post(
             postEndpoint,
@@ -373,6 +373,9 @@ export class SPOperations{
         const responseJson = await getResponse.json();
         const listItem: ICountryListItem = responseJson.value[0];
         
+        const postEndpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
+
         /* eslint-disable @typescript-eslint/no-explicit-any */
         const request: any = {};
         request.headers = {
@@ -382,9 +385,6 @@ export class SPOperations{
         /* eslint-enable @typescript-eslint/no-explicit-any */
         request.body = JSON.stringify(listItem);
         
-        const postEndpoint = SPOperations.context.pageContext.web.absoluteUrl + 
-            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
-        
         return SPOperations.context.spHttpClient.post(
             postEndpoint,
             SPHttpClient.configurations.v1,
@@ -392,4 +392,294 @@ export class SPOperations{
     }
 
     
+    // My Updated Microsoft Learn Methods
+
+    
+    public async _getItemEntityTypeShort(): Promise<string> {
+        const endpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items?$select=Id,Title`;
+        
+        const response = await SPOperations.context.spHttpClient.get(
+            endpoint,
+            SPHttpClient.configurations.v1);
+        
+        if (!response.ok) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+        
+        const responseJson = await response.json();
+        
+        return responseJson.ListItemEntityTypeFullName;
+    }
+
+    public async _getLatestItemShort(): Promise<ICountryListItem> {
+        const getEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items?` +
+            `$select=Id,Title&$orderby=ID desc&$top=1`;
+        // $filter=Title eq 'United States'
+        
+        const getResponse = await SPOperations.context.spHttpClient.get(
+            getEndpoint,
+            SPHttpClient.configurations.v1);
+        
+        if (!getResponse.ok) {
+            const responseText = await getResponse.text();
+            throw new Error(responseText);
+        }
+        
+        const responseJson = await getResponse.json();
+        const listItem: ICountryListItem = responseJson.value[0];
+
+        return listItem;
+    }
+
+    public async _getListItemsShort(): Promise<ICountryListItem[]> {
+        const response = await SPOperations.context.spHttpClient.get(
+            SPOperations.context.pageContext.web.absoluteUrl + `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items?$select=Id,Title`,
+            SPHttpClient.configurations.v1);
+        // `/_api/web/lists/getbytitle('Countries')/items?$select=Id,Title`
+
+        if (!response.ok) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+
+        const responseJson = await response.json();
+        console.log(responseJson);
+      
+        return responseJson.value as ICountryListItem[];
+    }
+
+    public async _addListItemShort(): Promise<ICountryListItem[]> {
+        const itemEntityType = await this._getItemEntityTypeShort();
+        
+        const endpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.body = JSON.stringify({
+            Title: new Date().toUTCString(),
+            '@odata.type': itemEntityType
+        });
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        
+        const addResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            endpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!addResponse.ok) {
+            const responseText = await addResponse.text();
+            throw new Error(responseText);
+        }
+        
+        return await this._getListItems();
+    }
+
+    public async _updateListItemShort(): Promise<ICountryListItem[]> {
+        const listItem: ICountryListItem = await this._getLatestItemShort();
+        listItem.Title = 'USA';
+
+        const postEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.headers = {
+            'X-HTTP-Method': 'MERGE',
+            'IF-MATCH': (listItem as any)['@odata.etag']
+        };
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        request.body = JSON.stringify(listItem);
+        
+        const updateResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            postEndpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!updateResponse.ok) {
+            const responseText = await updateResponse.text();
+            throw new Error(responseText);
+        }
+        
+        return await this._getListItems();
+    }
+
+    public async _deleteListItemShort(): Promise<ICountryListItem[]> {
+        const listItem: ICountryListItem = await this._getLatestItemShort();
+        
+        const postEndpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+SPOperations.listTitle+`')/items(${listItem.Id})`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.headers = {
+            'X-HTTP-Method': 'DELETE',
+            'IF-MATCH': '*'
+        };
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        request.body = JSON.stringify(listItem);
+        
+        const deleteResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            postEndpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!deleteResponse.ok) {
+            const responseText = await deleteResponse.text();
+            throw new Error(responseText);
+        }
+
+        return await this._getListItems();
+    }
+
+
+    //  My Template for General CRUD Operations
+
+
+    public async _getItemEntityTypeTemplate(listTitle: string): Promise<string> {
+        const endpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+listTitle+`')/items?$select=Id,Title`;
+        
+        const response = await SPOperations.context.spHttpClient.get(
+            endpoint,
+            SPHttpClient.configurations.v1);
+        
+        if (!response.ok) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+        
+        const responseJson = await response.json();
+        
+        return responseJson.ListItemEntityTypeFullName;
+    }
+
+    public async _getLatestItemTemplate(listTitle: string): Promise<ICountryListItem> {
+        const getEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+listTitle+`')/items?` +
+            `$select=Id,Title&$orderby=ID desc&$top=1`;
+        // $filter=Title eq 'United States'
+        
+        const getResponse = await SPOperations.context.spHttpClient.get(
+            getEndpoint,
+            SPHttpClient.configurations.v1);
+        
+        if (!getResponse.ok) {
+            const responseText = await getResponse.text();
+            throw new Error(responseText);
+        }
+        
+        const responseJson = await getResponse.json();
+        const listItem: ICountryListItem = responseJson.value[0];
+
+        return listItem;
+    }
+
+    public async _getListItemsTemplate(listTitle: string): Promise<any> {
+        const response = await SPOperations.context.spHttpClient.get(
+            SPOperations.context.pageContext.web.absoluteUrl + `/_api/web/lists/getbytitle('`+listTitle+`')/items?$select=Id,Title`,
+            SPHttpClient.configurations.v1);
+        // `/_api/web/lists/getbytitle('Countries')/items?$select=Id,Title`
+
+        if (!response.ok) {
+            const responseText = await response.text();
+            throw new Error(responseText);
+        }
+
+        const responseJson = await response.json();
+        console.log(responseJson);
+      
+        //return responseJson.value as ICountryListItem[];
+        return responseJson;
+    }
+
+    public async _addListItemTemplate(listTitle: string, Title:string): Promise<any> {
+        const itemEntityType = await this._getItemEntityTypeTemplate(listTitle);
+        
+        const endpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+listTitle+`')/items`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.body = JSON.stringify({
+            Title: Title,
+            '@odata.type': itemEntityType
+        });
+        // request.body = body;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        
+        const addResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            endpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!addResponse.ok) {
+            const responseText = await addResponse.text();
+            throw new Error(responseText);
+        }
+        
+        //return await this._getListItems();
+        return addResponse;
+    }
+
+    public async _updateListItemTemplate(listTitle: string, Title:string): Promise<any> {
+        const listItem: ICountryListItem = await this._getLatestItemTemplate(listTitle);
+        listItem.Title = Title;
+
+        const postEndpoint: string = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+listTitle+`')/items(${listItem.Id})`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.headers = {
+            'X-HTTP-Method': 'MERGE',
+            'IF-MATCH': (listItem as any)['@odata.etag']
+        };
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        request.body = JSON.stringify(listItem);
+        
+        const updateResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            postEndpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!updateResponse.ok) {
+            const responseText = await updateResponse.text();
+            throw new Error(responseText);
+        }
+        
+        return await this._getListItems();
+    }
+
+    public async _deleteListItemTemplate(listTitle: string): Promise<ICountryListItem[]> {
+        const listItem: ICountryListItem = await this._getLatestItemTemplate(listTitle);
+        
+        const postEndpoint = SPOperations.context.pageContext.web.absoluteUrl + 
+            `/_api/web/lists/getbytitle('`+listTitle+`')/items(${listItem.Id})`;
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const request: any = {};
+        request.headers = {
+            'X-HTTP-Method': 'DELETE',
+            'IF-MATCH': '*'
+        };
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        request.body = JSON.stringify(listItem);
+        
+        const deleteResponse: SPHttpClientResponse = await SPOperations.context.spHttpClient.post(
+            postEndpoint,
+            SPHttpClient.configurations.v1,
+            request);
+
+        if (!deleteResponse.ok) {
+            const responseText = await deleteResponse.text();
+            throw new Error(responseText);
+        }
+
+        return await this._getListItems();
+    }
+
 }

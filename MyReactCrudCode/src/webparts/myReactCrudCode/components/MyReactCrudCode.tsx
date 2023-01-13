@@ -64,7 +64,7 @@ export default class MyReactCrudCode extends React.Component<IMyReactCrudCodePro
             className={styles.buttons}
             onClick={
               async ()=>{
-                const response: ICountryListItem[] = await this._spOps._onGetListItems();
+                const response: ICountryListItem[] = await this._spOps._getListItemsShort();
                 this.setState({countries: response});
               }
             }
@@ -75,7 +75,7 @@ export default class MyReactCrudCode extends React.Component<IMyReactCrudCodePro
             className={styles.buttons}
             onClick={
               async ()=>{
-                const response: ICountryListItem[] = await this._spOps._onAddListItem();
+                const response: ICountryListItem[] = await this._spOps._addListItemShort();
                 this.setState({countries: response});
 
                 // this._spOps.createListItem(this.selectedListTitle)
@@ -91,7 +91,7 @@ export default class MyReactCrudCode extends React.Component<IMyReactCrudCodePro
             className={styles.buttons}
             onClick={
               async ()=>{
-                const response: ICountryListItem[] = await this._spOps._onUpdateListItem();
+                const response: ICountryListItem[] = await this._spOps._updateListItemShort();
                 this.setState({countries: response});
 
                 // this._spOps.updateListItem(this.selectedListTitle)
@@ -107,7 +107,7 @@ export default class MyReactCrudCode extends React.Component<IMyReactCrudCodePro
             className={styles.buttons}
             onClick={
               async ()=>{
-                const response: ICountryListItem[] = await this._spOps._onDeleteListItem();
+                const response: ICountryListItem[] = await this._spOps._deleteListItemShort();
                 this.setState({countries: response});
 
                 // this._spOps.deleteListItem(this.selectedListTitle)
