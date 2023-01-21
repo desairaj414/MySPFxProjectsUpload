@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.19.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "pn-p-demo",
+    "libraryId": "e2c32461-222e-40cd-b159-5a2ddce18b98",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "PnPDemo",
+    "solutionShortDescription": "PnPDemo description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

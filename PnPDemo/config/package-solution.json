@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "pn-p-demo-client-side-solution",
+    "id": "e2c32461-222e-40cd-b159-5a2ddce18b98",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "PnPDemo description"
+      },
+      "longDescription": {
+        "default": "PnPDemo description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "pn-p-demo Feature",
+        "description": "The feature that activates elements of the pn-p-demo solution.",
+        "id": "6cf72744-671a-420f-8ec4-ec386fbd9085",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/pn-p-demo.sppkg"
+  }
+}
