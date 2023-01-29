@@ -6,7 +6,7 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
 import { SPHttpClient, SPHttpClientResponse, ISPHttpClientOptions } from '@microsoft/sp-http';
-import { IDropdownOption } from "office-ui-fabric-react";
+import { IDatePickerStrings, IDropdownOption } from "office-ui-fabric-react";
 import { ICountryListItem } from "../models";
 
 // Imports to use in other File
@@ -49,6 +49,13 @@ export class SPOperations{
 
     private static context: WebPartContext;
     private static sp: SPFI;
+    context1: WebPartContext;
+    sp1: SPFI;
+    
+    constructor(){
+        this.context1 = SPOperations.context;
+        this.sp1  = spfi().using(SPFx(this.context1)).using(PnPLogging(LogLevel.Warning));
+    }
 
     public static Init(context: WebPartContext) {
         SPOperations.context = context;
@@ -76,7 +83,7 @@ export class SPOperations{
     }
 
 
-    // YouTube Videos Methods
+    // DS Mirror YouTube Videos Methods
 
 
     public GetAllList():Promise<IDropdownOption[]> {
@@ -215,6 +222,87 @@ export class SPOperations{
                         }
                     ); 
                 });
+        });
+    }
+
+    
+    // DS Mirror YouTube Videos PnP DemoMethods
+
+
+    public getAllListPnP():Promise<IDropdownOption[]> {
+        let listTitles:IDropdownOption[] = [];
+        return new Promise<IDropdownOption[]>((resolve,reject) => {
+            SPOperations.sp.web.lists.select('Title')().then(
+                (results:any) => {
+                    console.log(results);
+                    results.map((result:any) => {
+                        listTitles.push({
+                            key: result.Title, 
+                            text: result.Title
+                        });
+                    });
+                    resolve(listTitles);
+                },
+                (error: any):void => {
+                    reject("error occured"+error);
+                }
+            )
+        });
+    }
+
+    public createListItemPnP(listTitle: string):Promise<string> {
+        return new Promise<string>(async (resolve,reject) => {
+            SPOperations.sp.web.lists.getByTitle(listTitle).items.add({Title:"New Pnp Item Created"}).then(
+                (results: any)=>{
+                    resolve("Item with Id "+results.data.ID+" created successfully");
+                },
+                (error: any)=>{
+                    reject("Error occured"+error);
+                }
+            )
+        });
+    }
+
+    public deleteListItemPnP(listTitle: string):Promise<string> {
+        return new Promise<string>(async (resolve,reject) => {
+            this.getLatestItemId(listTitle).then((itemId: number)=>{
+                SPOperations.sp.web.lists.getByTitle(listTitle).items.getById(itemId).delete().then(
+                    (results: any)=>{
+                        resolve("Item with Id "+itemId+" deleted sucessfully");
+                    },
+                    (error: any)=>{
+                        reject("Error occured"+error);
+                    }
+                );
+            });
+        });
+    }
+
+    public updateListItemPnP(listTitle: string):Promise<string> {
+        return new Promise<string>(async (resolve,reject) => {
+            this.getLatestItemId(listTitle).then((itemId: number)=>{
+                SPOperations.sp.web.lists.getByTitle(listTitle).items.getById(itemId).update({Title:"Pnp Item Updated"}).then(
+                    (results: any)=>{
+                        resolve("Item with Id "+itemId+" updated sucessfully");
+                    },
+                    (error: any)=>{
+                        reject("Error occured"+error);
+                    }
+                );
+            });
+        });
+    }
+
+    public getLatestItemIdPnP(listTitle: string): Promise<number>{
+        return new Promise<number>(async (resolve,reject) => {
+            SPOperations.sp.web.lists.getByTitle(listTitle).items.select("ID").orderBy("ID",false).top(1)().then(
+                (results: any)=>{
+                    resolve(results[0].Id);
+                },
+                (error: any)=>{
+                    reject("Error occured"+error);
+                }
+            )
         });
     }
 
@@ -681,5 +769,76 @@ export class SPOperations{
 
         return await this._getListItems();
     }
+
+
+    // REACT From CRUD Operation Code
+
+    
+    public async fetchData() {
+        //let web = Web(this.props.webURL);
+        const items: any[] = await SPOperations.sp.web.lists.getByTitle("EmployeeDetails").items.select("*", "EmployeeName/Title").expand("EmployeeName/ID")();
+        console.log(items);
+        return(items);
+        // this.setState({ Items: items });
+        // let html = await this.getHTML(items);
+        // this.setState({ HTML: html });
+    }
+
+    public async SaveData(empId: any, HireDt: any, JobDesc: string) {
+        //let web = Web(this.props.webURL);
+        await SPOperations.sp.web.lists.getByTitle("EmployeeDetails").items.add({
+            EmployeeNameId:empId,
+            HireDate: new Date(HireDt),
+            JobDescription: JobDesc,
+        }).then(i => {
+            console.log(i);
+        });
+        alert("Created Successfully");
+    }
+
+    public async UpdateData(Id: any, empId: any, HireDt: any, JobDesc: string) {
+        //let web = Web(this.props.webURL);
+        await SPOperations.sp.web.lists.getByTitle("EmployeeDetails").items.getById(Id).update({
+            EmployeeNameId:empId,
+            HireDate: new Date(HireDt),
+            JobDescription: JobDesc,
+        }).then(i => {
+            console.log(i);
+        });
+        alert("Updated Successfully");
+    }
+
+    public async DeleteData(Id: any) {
+        //let web = Web(this.props.webURL);
+        await SPOperations.sp.web.lists.getByTitle("EmployeeDetails").items.getById(Id).delete()
+        .then(i => {
+            console.log(i);
+        });
+        alert("Deleted Successfully");
+    }
+    
+    public DatePickerStrings: IDatePickerStrings = {
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        shortDays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+        goToToday: 'Go to today',
+        prevMonthAriaLabel: 'Go to previous month',
+        nextMonthAriaLabel: 'Go to next month',
+        prevYearAriaLabel: 'Go to previous year',
+        nextYearAriaLabel: 'Go to next year',
+        invalidInputErrorMessage: 'Invalid date format.'
+    };
+      
+    public FormatDate = (date: any): string => {
+        console.log(date);
+        var date1 = new Date(date);
+        var year = date1.getFullYear();
+        var month = (1 + date1.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+        var day = date1.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+        return month + '/' + day + '/' + year;
+    };
 
 }

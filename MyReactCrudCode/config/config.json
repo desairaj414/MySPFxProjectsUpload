@@ -13,6 +13,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "MyReactCrudCodeWebPartStrings": "lib/webparts/myReactCrudCode/loc/{locale}.js"
+    "MyReactCrudCodeWebPartStrings": "lib/webparts/myReactCrudCode/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

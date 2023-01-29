@@ -2,6 +2,8 @@
 
 .myReactCrudCode {
   overflow: hidden;
+  border: 1px solid black;
+  border-radius: 20px;
   padding: 1em;
   color: "[theme:bodyText, default: #323130]";
   color: var(--bodyText);
@@ -16,7 +18,8 @@
 
 .welcomeImage {
   width: 100%;
-  max-width: 420px;
+  max-width: 300px;
+  margin: auto;
 }
 
 .links {
@@ -60,4 +63,37 @@
     display: none;
 
   }
+}
+
+table, th, td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+td, th {
+  text-align: center;
+}
+
+th {
+  font-size: medium;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+}
+
+hr {
+  border: none;
+  height: 2px;
+  /* Set the hr color */
+  color: #333; /* old IE */
+  background-color: #333; /* Modern Browsers */
+}
+
+.grey{
+  background-color: rgb(242, 240, 240);
+  text-align: center;
 }
