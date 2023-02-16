@@ -3,7 +3,9 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneSlider,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -15,6 +17,9 @@ import { SPOperations } from './Services/SPServices';
 
 export interface INewsWebPartWebPartProps {
   description: string;
+  maxCharacters: number;
+  maxNews: number;
+  toggle1: boolean;
 }
 
 export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPartWebPartProps> {
@@ -27,6 +32,9 @@ export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPa
       NewsWebPart,
       {
         description: this.properties.description,
+        maxCharacters: this.properties.maxCharacters,
+        maxNews: this.properties.maxNews,
+        toggle1: this.properties.toggle1,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
@@ -111,6 +119,24 @@ export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPa
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneSlider('maxCharacters',{
+                  label: "Max no of Characters",
+                  min: 1,
+                  max: 100,
+                  value: 60,
+                }),
+                PropertyPaneSlider('maxNews',{
+                  label: "Max no of News",
+                  min: 1,
+                  max: 10,
+                  value: 4,
+                  showValue: true
+                }),
+                PropertyPaneToggle('toggle1',{
+                  label: "Toggle 1",
+                  onText: 'Yes',
+                  offText: 'No',
                 })
               ]
             }

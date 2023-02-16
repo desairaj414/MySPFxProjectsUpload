@@ -48,7 +48,7 @@ export class SPOperations{
     //     return json;
     // }
 
-    public async getNewsList():Promise<INewsListItem[]>{
+    public async getNewsList(maxNews: number):Promise<INewsListItem[]>{
         const today = new Date();
         const response = await SPOperations.context.spHttpClient.get(
             SPOperations.context.pageContext.web.absoluteUrl + 
@@ -56,7 +56,7 @@ export class SPOperations{
             `$select=NewsTitle,PublishDate,NewsContent,NewsLink&` +
             `$filter=PublishDate le datetime'` + today.toISOString() + `'&` +
             `$orderby=PublishDate asc&`+
-            `$top=4`,
+            `$top=` + maxNews.toString(),
             SPHttpClient.configurations.v1);
 
         if (!response.ok) {

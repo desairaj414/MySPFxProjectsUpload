@@ -22,7 +22,10 @@
     "description": { "default": "NewsWebPart description" },
     "officeFabricIconFontName": "News",
     "properties": {
-      "description": "NewsWebPart"
+      "description": "NewsWebPart",
+      "maxCharacters": "60",
+      "maxNews": 4,
+      "toggle1": false
     }
   }]
 }
