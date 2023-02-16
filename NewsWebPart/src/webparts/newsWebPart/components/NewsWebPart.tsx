@@ -19,21 +19,21 @@ export default class NewsWebPart extends React.Component<INewsWebPartProps, INew
     this._spOps = new SPOperations();
   }
 
-  _getNewsList = async ()=>{
+  _getNewsList = async (): Promise<void>=>{
     const response: INewsListItem[] = await this._spOps.getNewsList(this.props.maxNews);
     this.setState({newslist: response});
   }
 
-  public componentDidMount()
+  public async componentDidMount() : Promise<void>
   {
-    this._getNewsList();
+    await this._getNewsList();
   }
 
-  public componentDidUpdate(prevProps : INewsWebPartProps, prevState : INewsWebPartStates) : void 
+  public async componentDidUpdate(prevProps : INewsWebPartProps, prevState : INewsWebPartStates) : Promise<void>
   {
     if(this.props.maxNews !== prevProps.maxNews)
     {
-      this._getNewsList();
+      await this._getNewsList();
     }
   }
 
@@ -44,7 +44,8 @@ export default class NewsWebPart extends React.Component<INewsWebPartProps, INew
       description,
       maxCharacters,
       maxNews,
-      toggle1
+      toggle1,
+      backgroundColor
     } = this.props;
 
     return (
@@ -62,6 +63,7 @@ export default class NewsWebPart extends React.Component<INewsWebPartProps, INew
               <li><strong>maxCharacters:</strong> {maxCharacters}</li>
               <li><strong>maxNews:</strong> {maxNews}</li>
               <li><strong>toggle1:</strong> {toggle1.toString()}</li>
+              <li><strong>backgroundColor:</strong> {backgroundColor}</li>
               <li><strong>API CALL RESULTS</strong></li>
               {this.state.newslist && this.state.newslist.map((news) =>
                 <li key={news.NewsTitle}>
@@ -75,7 +77,7 @@ export default class NewsWebPart extends React.Component<INewsWebPartProps, INew
               )}
             </ul>
         </div>
-        <div style={{backgroundColor: "#F0F9FA",}}>
+        <div style={{backgroundColor: backgroundColor,}}>
           <hr/>
           {this.state.newslist && this.state.newslist.map((news) =>
             <div key={news.NewsTitle}>

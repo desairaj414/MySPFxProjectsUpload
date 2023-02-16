@@ -20,6 +20,7 @@ export interface INewsWebPartWebPartProps {
   maxCharacters: number;
   maxNews: number;
   toggle1: boolean;
+  backgroundColor: string;
 }
 
 export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPartWebPartProps> {
@@ -35,6 +36,7 @@ export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPa
         maxCharacters: this.properties.maxCharacters,
         maxNews: this.properties.maxNews,
         toggle1: this.properties.toggle1,
+        backgroundColor: this.properties.backgroundColor,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
@@ -118,19 +120,21 @@ export default class NewsWebPartWebPart extends BaseClientSideWebPart<INewsWebPa
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                  label: strings.DescriptionFieldLabel,
+                }),
+                PropertyPaneTextField('backgroundColor', {
+                  label: "Backgroung Color",
+                  description: "Please enter the color in proper rgb format (eg: #F0F9FA )",
                 }),
                 PropertyPaneSlider('maxCharacters',{
                   label: "Max no of Characters",
                   min: 1,
                   max: 100,
-                  value: 60,
                 }),
                 PropertyPaneSlider('maxNews',{
                   label: "Max no of News",
                   min: 1,
                   max: 10,
-                  value: 4,
                   showValue: true
                 }),
                 PropertyPaneToggle('toggle1',{

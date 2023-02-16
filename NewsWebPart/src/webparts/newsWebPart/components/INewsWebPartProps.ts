@@ -3,6 +3,7 @@ export interface INewsWebPartProps {
   maxCharacters: number;
   maxNews: number;
   toggle1: boolean;
+  backgroundColor: string;
   isDarkTheme: boolean;
   environmentMessage: string;
   hasTeamsContext: boolean;

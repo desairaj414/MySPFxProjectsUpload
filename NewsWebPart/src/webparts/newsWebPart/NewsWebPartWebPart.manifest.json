@@ -25,7 +25,8 @@
       "description": "NewsWebPart",
       "maxCharacters": "60",
       "maxNews": 4,
-      "toggle1": false
+      "toggle1": false,
+      "backgroundColor": "#F0F9FA"
     }
   }]
 }
